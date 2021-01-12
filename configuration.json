@@ -2,7 +2,7 @@
   {
     "id": "aval",
     "label": "Aval - FPE",
-    "data": [
+    "inMemoryData": [
       {
         "name": "fpe2019_papier",
         "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/json/aval/fpe2019-papier.json"
@@ -12,6 +12,8 @@
         "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/json/aval/fpe2019-web.json"
       }
     ],
+    "sparkLocalData": [],
+    "sparkClusterData": [],
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/aval.txt",
     "defaultBindings": {},
     "scope": ["in-memory"]
@@ -19,16 +21,29 @@
   {
     "id": "crabe",
     "label": "Crabe",
-    "data": [
+    "inMemoryData": [
       {
         "name": "crabe",
         "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/json/crabe.json"
       }
     ],
-    "sparkLocalData": {
-      "crabe": "https://inseefrlab.github.io/VTL-Lab-Resources/data/parquet/crabe"
-    },
-    "sparkClusterData": { "crabe": "s3a://vtl/crabe" },
+    "sparkLocalData": [
+      {
+        "name": "crabe",
+        "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/parquet/crabe"
+      }
+    ],
+    "sparkClusterData": [{ "name": "crabe", "url": "s3a://vtl/crabe" }],
+    "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/crabe.txt",
+    "defaultBindings": {},
+    "scope": ["in-memory", "spark", "spark-cluster"]
+  },
+  {
+    "id": "empty",
+    "label": "Empty lab",
+    "inMemoryData": [],
+    "sparkLocalData": [],
+    "sparkClusterData": [],
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/crabe.txt",
     "defaultBindings": {},
     "scope": ["in-memory", "spark", "spark-cluster"]
@@ -36,7 +51,9 @@
   {
     "id": "sample",
     "label": "Sample",
-    "data": [],
+    "inMemoryData": [],
+    "sparkLocalData": [],
+    "sparkClusterData": [],
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/sample.txt",
     "defaultBindings": "https://inseefrlab.github.io/VTL-Lab-Resources/bindings/sample.txt",
     "scope": ["in-memory"]
