@@ -27,13 +27,10 @@
         "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/json/crabe.json"
       }
     ],
-    "sparkLocalData": [
-      {
-        "name": "crabe",
-        "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/parquet/crabe"
-      }
-    ],
-    "sparkClusterData": [{ "name": "crabe", "url": "s3a://vtl/crabe" }],
+    "sparkLocalData": {
+      "crabe": "src/main/resources/crabe"
+    },
+    "sparkClusterData": { "crabe": "s3a://vtl/crabe" },
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/crabe.txt",
     "defaultBindings": {},
     "scope": ["in-memory", "spark", "spark-cluster"]
