@@ -1,0 +1,8 @@
+{
+  "long": 4,
+  "double": 2.1,
+  "str1": "Hello",
+  "str2": "world",
+  "ff": false,
+  "tt": true
+}

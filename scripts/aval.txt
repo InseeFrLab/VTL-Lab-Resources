@@ -1,0 +1,82 @@
+// FPE 2019
+
+// Traitement des données papier
+
+/* Pour le test, on garde :
+ * - les duplicats d'identifiants IDUE1, ... (on va tester qu'ils sont égaux entre eux pour chaque observation)
+ * - une seule variable QCU (RAISONDEP, qui est décomposée en indicatrices RAISONDEP_a, RAISONDEP_b, ...) 
+ * - quelques couples de variables de dates ou durées (on va les rassembler pour les mettre au format de Coleman)
+ * - la variable NBCGEPRIS (qu'on va renommer) */
+
+papier1 := fpe2019_papier	[keep 	IdUE, IDUE1, IDUE2, IDUE3, 
+									RAISONDEP_a, RAISONDEP_b, RAISONDEP_c, RAISONDEP_d, RAISONDEP_e, 
+									MOISDEP, ANNEEDEP, DUREEPRIVA,DUREEPRIVM, NBHEURPROFH,NBHEURPROFM, 
+									NBCGEPRIS
+							];
+
+/* Vérification que tous les IdUE sont identiques pour chaque observation :
+ * IdUE, IDUE1, IDUE2 et IDUE3
+ * Règle de gestion :
+ * Si un des Id est différents des autres, on supprime l'observation. */
+
+papier2 := papier1[filter IdUE = IDUE1 and IdUE = IDUE2 and IdUE = IDUE3];
+
+/* Validation des variables QCU */
+
+/* On crée des variables de test où on somme les indicatrices 
+ * On supprime les observations où aucune ou plus d'une case est cochée sur les QCU */
+
+papier3 := papier2	[calc RAISONDEP_testQCU := RAISONDEP_a + RAISONDEP_b + RAISONDEP_c + RAISONDEP_d + RAISONDEP_e]
+					[filter RAISONDEP_testQCU = 1];
+
+/* Fin de validation des variables QCU */
+
+/* Transformation des indicatrices en une seule variable pour les QCU : 
+ * dans les données provenant des outils de collecte, on a une seule variable qui prend les valeurs 1, 2, .... ou K 
+ * (où K est le nombre de modalités).
+ * NB : Si on n'a pas filtré les observations présentant des anomalies, les QCU anormales sont codées en non-réponse 
+ * (valeur -1) à cette étape. */
+
+papier4 := papier3 	[calc RAISONDEP := if RAISONDEP_a = 1 then "1" else (
+															if RAISONDEP_b = 1 then "2" else (
+																if RAISONDEP_c = 1 then "3" else (
+																	if RAISONDEP_d = 1 then "4" else (
+																		if RAISONDEP_e = 1 then "5" else "-1"
+																	)
+																)
+															)
+														)
+					];
+
+/* Transformation des couples de variables de dates ou durées
+ * en une seule variable pour avoir le même format qu'avec les autres outils de collecte. */
+
+papier5 := papier4	[calc DATEDEP := ANNEEDEP||"-"||MOISDEP,
+					DUREEPRIV := "P"||DUREEPRIVA||"Y"||DUREEPRIVM||"M",
+					NBHEURPROF := "PT"||NBHEURPROFH||"H"||NBHEURPROFM||"M"
+			   		];
+
+/* Renommage de certaines variables 
+ * pour être raccord avec les données venant des autres outils de collecte */
+
+papier6 := papier5[rename NBCGEPRIS to NBCONGPRIS];
+
+
+/* Suppression des variables dont on n'a plus besoin */
+
+papier_final := papier6	[drop
+						/* Suppression des indicatrices des QCU et des variables de test */
+						RAISONDEP_a, RAISONDEP_b, RAISONDEP_c, RAISONDEP_d, RAISONDEP_e, RAISONDEP_testQCU,
+						/* Suppression des variables de dates séparées */
+						MOISDEP, ANNEEDEP, DUREEPRIVA,DUREEPRIVM, NBHEURPROFH,NBHEURPROFM, 
+						/* Suppression des duplicats d'identifiants */
+						IDUE1, IDUE2, IDUE3
+						];
+
+// Récupération des données web
+
+web_final := fpe2019_web[keep IdUE, RAISONDEP, DATEDEP, DUREEPRIV, NBHEURPROF, NBCONGPRIS];
+
+// Union des modes papier et web
+
+output_ds := union(papier_final, web_final);
