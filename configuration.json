@@ -55,7 +55,14 @@
     "sparkLocalData": [],
     "sparkClusterData": [],
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/sample.txt",
-    "defaultBindings": "https://inseefrlab.github.io/VTL-Lab-Resources/bindings/sample.txt",
+    "defaultBindings": {
+      "long": 4,
+      "double": 2.1,
+      "str1": "Hello",
+      "str2": "world",
+      "ff": false,
+      "tt": true
+    },
     "scope": ["in-memory"]
   }
 ]
