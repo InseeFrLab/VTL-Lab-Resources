@@ -36,16 +36,6 @@
     "scope": ["in-memory", "spark", "spark-cluster"]
   },
   {
-    "id": "empty",
-    "label": "Empty lab",
-    "inMemoryData": [],
-    "sparkLocalData": [],
-    "sparkClusterData": [],
-    "script": "",
-    "defaultBindings": {},
-    "scope": ["in-memory", "spark", "spark-cluster"]
-  },
-  {
     "id": "sample",
     "label": "Sample",
     "inMemoryData": [],
