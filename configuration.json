@@ -13,7 +13,6 @@
       }
     ],
     "sparkLocalData": [],
-    "sparkClusterData": [],
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/aval.txt",
     "defaultBindings": {},
     "scope": ["in-memory"]
@@ -33,14 +32,13 @@
     "sparkClusterData": { "crabe": "s3a://vtl/crabe" },
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/crabe.txt",
     "defaultBindings": {},
-    "scope": ["in-memory", "spark", "spark-cluster"]
+    "scope": ["in-memory", "spark", "spark-static", "spark-kube"]
   },
   {
     "id": "sample",
     "label": "Sample",
     "inMemoryData": [],
     "sparkLocalData": [],
-    "sparkClusterData": [],
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/sample.txt",
     "defaultBindings": {
       "long": 4,
