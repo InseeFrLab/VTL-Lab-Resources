@@ -1,0 +1,76 @@
+// 1 - Prepare input tables
+
+/*
+
+ * Input tables have common structure
+
+ * dirindik, dirindicsu, dirindia, ind_fisc, id_fisc, pren_1, nais_ind1, anais, mnais, jnais, numero, numero1, regroup
+
+ */
+
+// Main table with all dirindik
+
+main := dirindik    [drop numero1, regroup];
+
+main_dirindik := main [drop dirindicsu, dirindia];
+ 
+// Table with expected results
+
+expected_results := dirindik[keep dirindik, numero1, regroup]
+                            [rename numero1 to expected_numero, regroup to expected_regroup];
+
+// Table with all widowers
+
+widowers := dirindik    [filter dirindicsu <> ""]
+                        [drop dirindik]
+                        [rename dirindicsu to dirindik]
+                        [keep dirindik];
+
+widowers := left_join(widowers, main_dirindik)
+                    [rename dirindik to dirindicsu, ind_fisc to ind_fisc_csu, id_fisc to id_fisc_csu,
+                        pren_1 to pren_1_csu, nais_ind1 to nais_ind1_csu, anais to anais_csu,
+                        mnais to mnais_csu, jnais to jnais_csu, numero to numero_csu];
+
+                    
+// Table with all amalgams
+
+amalgams := dirindik    [filter dirindia <> ""]
+                        [drop dirindik]
+                        [rename dirindia to dirindik]
+                        [keep dirindik];
+ 
+amalgams := left_join(amalgams, main_dirindik)
+                    [rename dirindik to dirindia, ind_fisc to ind_fisc_a, id_fisc to id_fisc_a,
+                        pren_1 to pren_1_a, nais_ind1 to nais_ind1_a, anais to anais_a,
+                        mnais to mnais_a, jnais to jnais_a, numero to numero_a];
+ 
+// 2 - Merge work tables
+
+main := main [calc measure dirindik := dirindik, measure dirindicsu:=dirindicsu];
+main := left_join(main, amalgams)[drop dirindia][calc identifier dirindicsu:=dirindicsu];
+main := left_join(main, widowers)[drop dirindicsu][calc identifier dirindik:=dirindik];
+
+// 3 - Calculate scores
+
+scores := main  
+            [calc
+                eq_fisc_csu := ind_fisc <> "" and ind_fisc = ind_fisc_csu or id_fisc <> "" and id_fisc = id_fisc_csu,
+                score1_csu := pren_1 = pren_1_csu and nais_ind1 = nais_ind1_csu,
+                score2_csu := anais = anais_csu and mnais = mnais_csu and jnais = jnais_csu and levenshtein(pren_1, pren_1_csu) <= 20]
+            [calc
+                eq_fisc_a := ind_fisc <> "" and ind_fisc = ind_fisc_a or id_fisc <> "" and id_fisc = id_fisc_a,
+                score1_a := pren_1 = pren_1_a and nais_ind1 = nais_ind1_a,
+                score2_a := anais = anais_a and mnais = mnais_a and jnais = jnais_a and levenshtein(pren_1, pren_1_a) <= 20]
+            [calc score_csu := score1_csu or score2_csu, score_a := score1_a or score2_a]
+            [calc final_score_csu := eq_fisc_csu or score_csu, final_score_a := eq_fisc_a or score_a]
+            [calc numero1 := if final_score_csu then numero_csu else (
+                    if final_score_a then numero_a else numero
+            )]
+            [calc regroup := if numero <> numero1 then "100000" else "0"]
+            [keep dirindik, pren_1, nais_ind1, numero, numero1, regroup];
+
+// 4 - Check results
+
+results := left_join(expected_results, scores)
+                        [drop dirindik]
+                        [filter expected_regroup <> regroup];

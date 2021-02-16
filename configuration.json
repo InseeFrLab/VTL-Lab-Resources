@@ -35,6 +35,19 @@
     "scope": ["in-memory", "spark", "spark-static", "spark-kube"]
   },
   {
+    "id": "fideli",
+    "label": "Fideli",
+    "inMemoryData": [
+      {
+        "name": "fideli",
+        "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/json/fideli/jeu1000.json"
+      }
+    ],
+    "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/fideli.txt",
+    "defaultBindings": {},
+    "scope": ["in-memory"]
+  },
+  {
     "id": "sample",
     "label": "Sample",
     "inMemoryData": [],
