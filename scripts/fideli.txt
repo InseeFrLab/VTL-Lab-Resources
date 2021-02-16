@@ -10,18 +10,18 @@
 
 // Main table with all dirindik
 
-main := dirindik    [drop numero1, regroup];
+main := fideli    [drop numero1, regroup];
 
 main_dirindik := main [drop dirindicsu, dirindia];
  
 // Table with expected results
 
-expected_results := dirindik[keep dirindik, numero1, regroup]
+expected_results := fideli[keep dirindik, numero1, regroup]
                             [rename numero1 to expected_numero, regroup to expected_regroup];
 
 // Table with all widowers
 
-widowers := dirindik    [filter dirindicsu <> ""]
+widowers := fideli    [filter dirindicsu <> ""]
                         [drop dirindik]
                         [rename dirindicsu to dirindik]
                         [keep dirindik];
@@ -34,7 +34,7 @@ widowers := left_join(widowers, main_dirindik)
                     
 // Table with all amalgams
 
-amalgams := dirindik    [filter dirindia <> ""]
+amalgams := fideli    [filter dirindia <> ""]
                         [drop dirindik]
                         [rename dirindia to dirindik]
                         [keep dirindik];
