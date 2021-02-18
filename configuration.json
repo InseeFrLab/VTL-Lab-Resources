@@ -43,6 +43,7 @@
         "url": "https://inseefrlab.github.io/VTL-Lab-Resources/data/json/fideli/jeu1000.json"
       }
     ],
+    "sparkClusterData": { "fideli": "s3a://vtl/fideli/small" },
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/fideli.txt",
     "defaultBindings": {},
     "scope": ["in-memory"]
