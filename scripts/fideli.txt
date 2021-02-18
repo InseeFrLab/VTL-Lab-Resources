@@ -1,30 +1,22 @@
 // 1 - Prepare input tables
 
-/*
-
- * Input tables have common structure
-
- * dirindik, dirindicsu, dirindia, ind_fisc, id_fisc, pren_1, nais_ind1, anais, mnais, jnais, numero, numero1, regroup
-
- */
-
 // Main table with all dirindik
 
-main := fideli    [drop numero1, regroup];
+main := fideli[drop numero1, regroup];
 
-main_dirindik := main [drop dirindicsu, dirindia];
+main_dirindik := main[drop dirindicsu, dirindia];
  
 // Table with expected results
 
-expected_results := fideli[keep dirindik, numero1, regroup]
+expected_results := fideli  [keep dirindik, numero1, regroup]
                             [rename numero1 to expected_numero, regroup to expected_regroup];
 
 // Table with all widowers
 
-widowers := fideli    [filter dirindicsu <> ""]
-                        [drop dirindik]
-                        [rename dirindicsu to dirindik]
-                        [keep dirindik];
+widowers := fideli  [filter dirindicsu <> ""]
+                    [drop dirindik]
+                    [rename dirindicsu to dirindik]
+                    [keep dirindik];
 
 widowers := left_join(widowers, main_dirindik)
                     [rename dirindik to dirindicsu, ind_fisc to ind_fisc_csu, id_fisc to id_fisc_csu,
@@ -34,10 +26,10 @@ widowers := left_join(widowers, main_dirindik)
                     
 // Table with all amalgams
 
-amalgams := fideli    [filter dirindia <> ""]
-                        [drop dirindik]
-                        [rename dirindia to dirindik]
-                        [keep dirindik];
+amalgams := fideli  [filter dirindia <> ""]
+                    [drop dirindik]
+                    [rename dirindia to dirindik]
+                    [keep dirindik];
  
 amalgams := left_join(amalgams, main_dirindik)
                     [rename dirindik to dirindia, ind_fisc to ind_fisc_a, id_fisc to id_fisc_a,
@@ -66,7 +58,7 @@ scores := main
             [calc numero1 := if final_score_csu then numero_csu else (
                     if final_score_a then numero_a else numero
             )]
-            [calc regroup := if numero <> numero1 then "100000" else "0"]
+            [calc regroup := if numero <> numero1 then "100000" else "000000"]
             [keep dirindik, pren_1, nais_ind1, numero, numero1, regroup];
 
 // 4 - Check results
