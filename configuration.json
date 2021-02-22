@@ -2,6 +2,16 @@
   {
     "id": "aval",
     "label": "Aval - FPE",
+    "metadata": [
+      {
+        "name": "fpe2019_papier",
+        "url": "https://inseefrlab.github.io/VTL-Lab-Resources/metadata/aval/fpe2019-papier/structure.json"
+      },
+      {
+        "name": "fpe2019_web",
+        "url": "https://inseefrlab.github.io/VTL-Lab-Resources/metadata/aval/fpe2019-web/structure.json"
+      }
+    ],
     "inMemoryData": [
       {
         "name": "fpe2019_papier",
@@ -20,6 +30,12 @@
   {
     "id": "crabe",
     "label": "Crabe",
+    "metadata": [
+      {
+        "name": "crabe",
+        "url": "https://inseefrlab.github.io/VTL-Lab-Resources/metadata/crabe/structure.json"
+      }
+    ],
     "inMemoryData": [
       {
         "name": "crabe",
@@ -37,6 +53,12 @@
   {
     "id": "fideli",
     "label": "Fideli",
+    "metadata": [
+      {
+        "name": "fideli",
+        "url": "https://inseefrlab.github.io/VTL-Lab-Resources/metadata/fideli/structure.json"
+      }
+    ],
     "inMemoryData": [
       {
         "name": "fideli",
