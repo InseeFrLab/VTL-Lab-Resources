@@ -45,7 +45,7 @@
     "sparkLocalData": {
       "crabe": "src/main/resources/crabe"
     },
-    "sparkClusterData": { "crabe": "s3a://vtl/crabe" },
+    "sparkClusterData": { "crabe": "s3a://projet-vtl/crabe" },
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/crabe.txt",
     "defaultBindings": {},
     "scope": ["in-memory", "spark", "spark-static", "spark-kube"]
@@ -68,7 +68,7 @@
     "sparkLocalData": {
       "fideli": "src/main/resources/fideli"
     },
-    "sparkClusterData": { "fideli": "s3a://vtl/fideli/small" },
+    "sparkClusterData": { "fideli": "s3a://projet-vtl/fideli/small" },
     "script": "https://inseefrlab.github.io/VTL-Lab-Resources/scripts/fideli.txt",
     "defaultBindings": {},
     "scope": ["in-memory", "spark", "spark-static", "spark-kube"]
